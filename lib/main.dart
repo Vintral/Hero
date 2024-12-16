@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hero/screens/create.dart';
+
 import 'package:logger/logger.dart';
 
-import 'package:hero/screens/game.dart';
-import 'package:hero/screens/splash.dart';
+import 'package:hero/screens/game/screen.dart';
+import 'package:hero/screens/splash/screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
     Logger.level = Level.warning;
 
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         "splash": (context) => const SplashScreen(),
         "game": (context) => const GameScreen(),
-        "create": (context) => const CreateScreen(),
       },
       initialRoute: "splash",
     );

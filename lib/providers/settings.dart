@@ -8,7 +8,7 @@ class Settings {
   bool _loaded = false;
   late SharedPreferences? settings;
 
-  static int gap = 10;
+  static double gap = 10;
 
   Future<bool> load() async {
     _logger.d("load");
@@ -31,7 +31,7 @@ class Settings {
 
   void dump() {
     _logger.t("================================");
-    _logger.t("Version: ${version}");
+    _logger.t("Version: $version");
     _logger.t("================================");
   }
 }

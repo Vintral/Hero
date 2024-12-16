@@ -10,6 +10,8 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      color: Theme.of(context).colorScheme.primary,
+    );
   }
 }

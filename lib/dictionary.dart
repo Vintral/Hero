@@ -2,9 +2,11 @@ class Dictionary {
   static String missing = "/\\/\\1\$\$1Ng";
 
   static Map<String, String> strings = {
-    "CREATE_SCREEN": "create screen",
-    "GAME_SCREEN": "game screen",
+    "ADVENTURE": "adventure",
     "CLASS": "class",
+    "TOWN": "town",
+    "ACHIEVEMENTS": "achievements",
+    "INFO": "info",
     "NAME": "name",
     "NEXT": "next",
     "PREVIOUS": "previous",

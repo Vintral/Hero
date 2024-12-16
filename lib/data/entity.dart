@@ -1,7 +1,7 @@
 import 'package:logger/logger.dart';
 
 class Entity {
-  final Logger _logger = Logger(level: Level.trace);
+  final Logger _logger = Logger();
 
   String name = "";
 

@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:hero/providers/character.dart';
 
 import 'package:logger/logger.dart';
 
-import 'package:hero/providers/theme.dart';
+import 'package:hero/providers/character.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,8 +12,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final Logger _logger = Logger(level: Level.trace);
-  final ThemeProvider _theme = ThemeProvider();
+  final Logger _logger = Logger();
   final CharacterProvider _character = CharacterProvider();
 
   @override

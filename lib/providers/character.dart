@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hero/data/entity.dart';
 
 class CharacterProvider {
-  final Logger _logger = Logger(level: Level.trace);
+  final Logger _logger = Logger();
 
   bool _loaded = false;
   late SharedPreferences? _storage;
@@ -14,6 +14,8 @@ class CharacterProvider {
   set name(String value) {
     _storage?.setString("name", value);
   }
+
+  bool get playing => _entity != null;
 
   Future<bool> load() async {
     _logger.d("load");

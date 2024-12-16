@@ -46,7 +46,7 @@ class _CreateScreenState extends State<CreateScreen> {
     switch (_phase) {
       case 0:
         return Padding(
-          padding: EdgeInsets.all(Settings.gap.toDouble() * 3),
+          padding: EdgeInsets.all(Settings.gap * 3),
           child: TextField(
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -125,8 +125,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       child: TextButton(
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(Settings.gap.toDouble()),
+                            borderRadius: BorderRadius.circular(Settings.gap),
                           ),
                           foregroundColor: theme.colorScheme.onPrimary,
                           backgroundColor: _phase == 0
@@ -140,7 +139,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                 })
                             : null,
                         child: Padding(
-                          padding: EdgeInsets.all(Settings.gap.toDouble()),
+                          padding: EdgeInsets.all(Settings.gap),
                           child: Text(
                               capitalizeFirst(Dictionary.get("PREVIOUS")),
                               style: theme.textTheme.labelLarge?.copyWith(
@@ -152,8 +151,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       child: TextButton(
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(Settings.gap.toDouble()),
+                            borderRadius: BorderRadius.circular(Settings.gap),
                           ),
                           foregroundColor: theme.colorScheme.onPrimary,
                           backgroundColor: theme.colorScheme.primary,
@@ -163,7 +161,7 @@ class _CreateScreenState extends State<CreateScreen> {
                           _phase++;
                         }),
                         child: Padding(
-                          padding: EdgeInsets.all(Settings.gap.toDouble()),
+                          padding: EdgeInsets.all(Settings.gap),
                           child: Text(capitalizeFirst(Dictionary.get("NEXT")),
                               style: theme.textTheme.labelLarge?.copyWith(
                                   color: theme.colorScheme.onPrimary)),
