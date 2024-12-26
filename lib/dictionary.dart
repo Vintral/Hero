@@ -6,11 +6,13 @@ class Dictionary {
     "CLASS": "class",
     "TOWN": "town",
     "ACHIEVEMENTS": "achievements",
+    "CREATE": "create",
     "INFO": "info",
     "NAME": "name",
     "NEXT": "next",
     "PREVIOUS": "previous",
     "RACE": "race",
+    "START": "start",
   };
 
   static String get(String key) {

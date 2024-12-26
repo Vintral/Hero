@@ -13,8 +13,8 @@ class AdventurePane extends StatelessWidget {
       margin: EdgeInsets.all(Settings.gap),
       child: SizedBox.expand(
         child: Center(
-            child: Text("ADVENTURE",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            child: Text("No Adventures",
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer))),
       ),
     );
