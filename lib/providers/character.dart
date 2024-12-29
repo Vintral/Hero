@@ -1,3 +1,4 @@
+import 'package:hero/enums.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,7 @@ class CharacterProvider {
   }
 
   CharacterProvider._internal() {
-    _logger.f('Created');
+    _logger.t('Created');
   }
 
   final Logger _logger = Logger();
@@ -62,10 +63,27 @@ class CharacterProvider {
     _player?.save();
   }
 
+  ClassType get classType => _player?.classType ?? ClassType.none;
+  set classType(ClassType value) {
+    _player?.classType = value;
+    _player?.save();
+  }
+
+  RaceType get raceType => _player?.raceType ?? RaceType.none;
+  set raceType(RaceType value) {
+    _player?.raceType = value;
+    _player?.save();
+  }
+
   bool get playing => _player != null;
+  bool get active {
+    return _player!.name.isNotEmpty &&
+        _player!.classType != ClassType.none &&
+        _player!.raceType != RaceType.none;
+  }
 
   Future<bool> load() async {
-    _logger.w("load");
+    _logger.t("load");
 
     if (!_loaded) {
       _storage = await SharedPreferences.getInstance();
@@ -75,12 +93,6 @@ class CharacterProvider {
     _player = Player();
     await _player!.load();
 
-    if (_player == null) {
-      _logger.f("WE HAVE NO PLAYER");
-    } else {
-      _logger.f("WE HAVE A PLAYER");
-    }
-
     return true;
   }
 
@@ -88,6 +100,10 @@ class CharacterProvider {
     _logger.t("clear");
 
     await _storage?.remove("name");
+  }
+
+  Future<void> kill() async {
+    await _player?.erase();
   }
 
   void dump() {

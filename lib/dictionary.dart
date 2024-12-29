@@ -8,6 +8,7 @@ class Dictionary {
     "ACHIEVEMENTS": "achievements",
     "CREATE": "create",
     "INFO": "info",
+    "KILL": "kill",
     "NAME": "name",
     "NEXT": "next",
     "PREVIOUS": "previous",

@@ -55,6 +55,12 @@ class _CreateModalState extends State<CreateModal>
     _controllerClass = TabController(length: 4, vsync: this);
     _controllerRace = TabController(length: 8, vsync: this);
 
+    _class = _character.classType;
+    _race = _character.raceType;
+
+    _controllerClass.animateTo(getClassTabForClass());
+    _controllerRace.animateTo(setRaceTab());
+
     _controller.text = _character.name;
 
     if (_character.strength == 0) {
@@ -76,14 +82,62 @@ class _CreateModalState extends State<CreateModal>
       _character.willpower = generateStat();
     }
 
-    if (_character.name.isNotEmpty) _phase++;
+    if (_character.name.isNotEmpty) {
+      if (_character.classType == ClassType.none) {
+        _phase = 1;
+      } else {
+        _phase = 2;
+      }
+    }
 
     _controllerClass.addListener(onClassChanged);
     _controllerRace.addListener(onRaceChanged);
   }
 
+  getClassTabForClass() {
+    _logger.t("getClassTabForClass");
+
+    switch (_class) {
+      case ClassType.fighter:
+        return 0;
+      case ClassType.thief:
+        return 1;
+      case ClassType.cleric:
+        return 2;
+      case ClassType.wizard:
+        return 3;
+      default:
+        return 0;
+    }
+  }
+
+  setRaceTab() {
+    _logger.t("setRaceTab");
+
+    switch (_race) {
+      case RaceType.human:
+        return 0;
+      case RaceType.dwarf:
+        return 1;
+      case RaceType.elf:
+        return 2;
+      case RaceType.halfling:
+        return 3;
+      case RaceType.giant:
+        return 4;
+      case RaceType.fae:
+        return 5;
+      case RaceType.lizard:
+        return 6;
+      case RaceType.troll:
+        return 7;
+      default:
+        return 0;
+    }
+  }
+
   onClassChanged() {
-    _logger.f("CLASS CHANGED: ${_controllerClass.index}");
+    _logger.t("onClassChanged: ${_controllerClass.index}");
 
     setState(() {
       switch (_controllerClass.index) {
@@ -96,11 +150,13 @@ class _CreateModalState extends State<CreateModal>
         case 3:
           _class = ClassType.wizard;
       }
+
+      _character.classType = _class;
     });
   }
 
   onRaceChanged() {
-    _logger.f("RACE CHANGED: ${_controllerRace.index}");
+    _logger.t("onRaceChanged: ${_controllerRace.index}");
 
     setState(() {
       switch (_controllerRace.index) {
@@ -121,6 +177,8 @@ class _CreateModalState extends State<CreateModal>
         case 7:
           _race = RaceType.troll;
       }
+
+      _character.raceType = _race;
     });
   }
 
@@ -139,14 +197,6 @@ class _CreateModalState extends State<CreateModal>
 
     _controller.text = name;
     _character.name = name;
-  }
-
-  handleClassTab(int tab) {
-    _logger.w("handleClassTab: $tab");
-  }
-
-  handleRaceTab(int tab) {
-    _logger.w("handleRaceTab: $tab");
   }
 
   Widget buildContent() {
@@ -179,7 +229,6 @@ class _CreateModalState extends State<CreateModal>
                   Image.asset("assets/classes/badge_cleric.png"),
                   Image.asset("assets/classes/badge_wizard.png"),
                 ],
-                onTap: handleClassTab,
               ),
             ),
             SizedBox(
@@ -376,27 +425,15 @@ class _CreateModalState extends State<CreateModal>
     final size = MediaQuery.of(context).size;
     final offset = MediaQuery.of(context).viewInsets.bottom;
 
-    _logger.t("OFFSET: ${MediaQuery.of(context).viewInsets.bottom}");
-    _logger.t("MAX SIZE: ${size.height - offset}");
-
-    _logger.w("Class: $_class");
-
     return Center(
       child: Container(
-        // padding: EdgeInsets.symmetric(
-        //     vertical: size.height * .1, horizontal: size.width * .1),
         constraints: BoxConstraints(
-          // minHeight: (size.height - offset) * .25,
-          // minWidth: 0,
           maxWidth: size.width * .9,
-          // maxHeight: (size.height - offset) * .9),
           maxHeight: size.height * .9,
         ),
         padding: EdgeInsets.symmetric(
             horizontal: size.width * .1,
             vertical: (size.height - offset) * .05),
-        // child: SizedBox(
-        //   height: (size.height - offset) * .85,
         child: Container(
           color: theme.colorScheme.primaryContainer,
           child: Column(
@@ -417,9 +454,6 @@ class _CreateModalState extends State<CreateModal>
               Padding(
                 padding: EdgeInsets.all(Settings.gap),
                 child: Row(
-                  // child: Padding(
-                  //   padding: EdgeInsets.all(Settings.gap * 2),
-                  //   child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   spacing: Settings.gap * 2,
                   children: [

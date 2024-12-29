@@ -30,15 +30,17 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void initState() {
-    modal = CreateModal(
-      handler: onCloseModal,
-    );
+    if (!_character.active) {
+      modal = CreateModal(
+        handler: onCloseModal,
+      );
+    }
 
     super.initState();
   }
 
   onCloseModal() {
-    _logger.w("onCloseModal");
+    _logger.i("onCloseModal");
 
     setState(() {
       modal = null;
@@ -64,11 +66,11 @@ class _GameScreenState extends State<GameScreen> {
       FloatingActionButton.extended(
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: theme.colorScheme.onPrimary,
-        onPressed: onCreateCharacter,
+        onPressed: onKillCharacter,
         icon: Icon(Icons.add),
         label: getButtonLabel(
           capitalizeFirst(
-            Dictionary.get("START"),
+            Dictionary.get("KILL"),
           ),
         ),
       ),
@@ -79,20 +81,10 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   // Future<void> onCreateCharacter() {
-  onCreateCharacter() {
-    _logger.i("onCreateCharacter");
+  Future<void> onKillCharacter() async {
+    _logger.t("onKillCharacter");
 
-    // return showDialog<void>(
-    //   context: context,
-    //   // builder: (context) => AlertDialog(
-    //   //   contentPadding: EdgeInsets.all(0),
-    //   //   // insetPadding: EdgeInsets.all(0),
-    //   //   content: CreateModal(),
-    //   // ),
-    //   builder: (context) => CreateModal(),
-    // );
-
-    // Navigator.of(context).push<void>(CreateDialog());
+    await _character.kill();
 
     setState(() {
       modal = CreateModal(

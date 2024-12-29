@@ -11,7 +11,7 @@ class AdventureProvider {
   }
 
   AdventureProvider._internal() {
-    _logger.f('Created');
+    _logger.t('Created');
   }
 
   final Logger _logger = Logger();
@@ -28,7 +28,7 @@ class AdventureProvider {
   bool get playing => _entity != null;
 
   Future<bool> load() async {
-    _logger.d("load");
+    _logger.t("load");
 
     if (!_loaded) {
       _storage = await SharedPreferences.getInstance();

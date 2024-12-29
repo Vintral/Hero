@@ -15,7 +15,7 @@ class LibraryProvider {
   }
 
   LibraryProvider._internal() {
-    _logger.f('Created');
+    _logger.t('Created');
   }
 
   final Logger _logger = Logger();
@@ -27,7 +27,7 @@ class LibraryProvider {
   final Map<RaceType, Race> races = HashMap();
 
   Future<bool> load() async {
-    _logger.d("load");
+    _logger.t("load");
 
     if (!_loaded) {
       _storage = await SharedPreferences.getInstance();
