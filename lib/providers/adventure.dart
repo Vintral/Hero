@@ -1,3 +1,6 @@
+import 'package:hero/content/sewer.dart';
+import 'package:hero/data/section.dart';
+import 'package:hero/data/story.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +15,9 @@ class AdventureProvider {
 
   AdventureProvider._internal() {
     _logger.t('Created');
+
+    var d = Story()..name = "Testing";
+    d.dump();
   }
 
   final Logger _logger = Logger();
@@ -27,6 +33,10 @@ class AdventureProvider {
 
   bool get playing => _entity != null;
 
+  Story? _story;
+
+  Section? get section => _story?.section;
+
   Future<bool> load() async {
     _logger.t("load");
 
@@ -34,6 +44,10 @@ class AdventureProvider {
       _storage = await SharedPreferences.getInstance();
       _loaded = true;
     }
+
+    _story = Sewer();
+    _story!.build();
+    _story!.onStart();
 
     return true;
   }
