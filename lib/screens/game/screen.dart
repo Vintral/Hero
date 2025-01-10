@@ -84,7 +84,7 @@ class _GameScreenState extends State<GameScreen> {
   Future<void> onKillCharacter() async {
     _logger.t("onKillCharacter");
 
-    await _character.kill();
+    await _character.erase();
 
     setState(() {
       modal = CreateModal(
@@ -101,9 +101,8 @@ class _GameScreenState extends State<GameScreen> {
       child: Stack(children: [
         Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(_character.playing
-                ? MediaQuery.of(context).size.height / 8
-                : 0),
+            preferredSize: Size.fromHeight(
+                _character.active ? MediaQuery.of(context).size.height / 8 : 0),
             child: Header(),
           ),
           floatingActionButton: getButtons()[_page],

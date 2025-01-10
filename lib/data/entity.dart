@@ -1,6 +1,7 @@
+import 'package:eventify/eventify.dart';
 import 'package:logger/logger.dart';
 
-class Entity {
+class Entity extends EventEmitter {
   final Logger _logger = Logger();
 
   String name = "";
@@ -10,6 +11,34 @@ class Entity {
   int faith = 0;
   int intellect = 0;
   int willpower = 0;
+
+  int _health = 0;
+  int get health => _health;
+  set health(int val) {
+    _health = val;
+    emit("UPDATED");
+  }
+
+  int _healthMax = 0;
+  int get healthMax => _healthMax;
+  set healthMax(int val) {
+    _healthMax = val;
+    emit("UPDATED");
+  }
+
+  int _resource = 0;
+  int get resource => _resource;
+  set resource(int val) {
+    _resource = val;
+    emit("UPDATED");
+  }
+
+  int _resourceMax = 0;
+  int get resourceMax => _resourceMax;
+  set resourceMax(int val) {
+    _resourceMax = val;
+    emit("UPDATED");
+  }
 
   Entity() {
     _logger.t("Created");
@@ -24,6 +53,10 @@ class Entity {
     faith = data["faith"] ?? 1;
     intellect = data["intellect"] ?? 1;
     willpower = data["willpower"] ?? 1;
+    health = data["health"] ?? 1;
+    healthMax = data["healthMax"] ?? 1;
+    resource = data["resource"] ?? 1;
+    resourceMax = data["resourceMax"] ?? 1;
   }
 
   Map<String, dynamic> toJSON() => {
@@ -34,17 +67,27 @@ class Entity {
         "faith": faith,
         "intellect": intellect,
         "willpower": willpower,
+        "health": health,
+        "healthMax": healthMax,
+        "resource": resource,
+        "resourceMax": resourceMax,
       };
 
   void dump() {
-    _logger.t("================================");
-    _logger.t("Name: $name");
-    _logger.t("Strength: $strength");
-    _logger.t("Dexterity: $dexterity");
-    _logger.t("Fortitude: $fortitude");
-    _logger.t("Faith: $faith");
-    _logger.t("Intellect: $intellect");
-    _logger.t("Willpower: $willpower");
-    _logger.t("================================");
+    _logger.t(
+      """
+================================
+Name: $name
+Strength: $strength
+Dexterity: $dexterity
+Fortitude: $fortitude
+Faith: $faith
+Intellect: $intellect
+Willpower: $willpower
+Health: $health/$healthMax
+Resource: $resource/$resourceMax
+================================
+      """,
+    );
   }
 }
