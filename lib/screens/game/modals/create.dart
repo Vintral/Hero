@@ -1,6 +1,10 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+
+import 'package:logger/logger.dart';
+
 import 'package:hero/data/entity.dart';
 import 'package:hero/dictionary.dart';
 import 'package:hero/enums.dart';
@@ -8,7 +12,6 @@ import 'package:hero/providers/character.dart';
 import 'package:hero/providers/library.dart';
 import 'package:hero/providers/settings.dart';
 import 'package:hero/utilities.dart';
-import 'package:logger/logger.dart';
 
 class CreateModal extends StatefulWidget {
   const CreateModal({super.key, this.handler});
@@ -33,8 +36,8 @@ class _CreateModalState extends State<CreateModal>
   late TabController _controllerClass;
   late TabController _controllerRace;
 
-  var _class = ClassType.fighter;
-  var _race = RaceType.human;
+  var _class = ClassType.none;
+  var _race = RaceType.none;
 
   final _maxPhase = 2;
 
@@ -55,8 +58,17 @@ class _CreateModalState extends State<CreateModal>
     _controllerClass = TabController(length: 4, vsync: this);
     _controllerRace = TabController(length: 8, vsync: this);
 
-    _class = _character.classType;
-    _race = _character.raceType;
+    // _class = _character.classType;
+    // if (_class == ClassType.none) {
+    //   _class = ClassType.fighter;
+    //   _character.classType = _class;
+    // }
+
+    // _race = _character.raceType;
+    // if (_race == RaceType.none) {
+    //   _race = RaceType.human;
+    //   _character.raceType = _race;
+    // }
 
     _controllerClass.animateTo(getClassTabForClass());
     _controllerRace.animateTo(setRaceTab());
@@ -81,6 +93,8 @@ class _CreateModalState extends State<CreateModal>
     if (_character.willpower == 0) {
       _character.willpower = generateStat();
     }
+
+    _character.dump();
 
     if (_character.name.isNotEmpty) {
       if (_character.classType == ClassType.none) {
@@ -183,7 +197,7 @@ class _CreateModalState extends State<CreateModal>
   }
 
   int generateStat() {
-    _logger.t("generateStat");
+    _logger.w("generateStat");
 
     return _random.nextInt(10) + 5;
   }
@@ -499,11 +513,45 @@ class _CreateModalState extends State<CreateModal>
                             ? null
                             : () => setState(() {
                                   if (_phase == _maxPhase) {
+                                    _character.raceType = _race != RaceType.none
+                                        ? _race
+                                        : RaceType.human;
+                                    _character.active = true;
+                                    _character.health = 10;
+                                    _character.healthMax = 10;
+                                    _character.resource = 10;
+                                    _character.resourceMax = 10;
+                                    _character.experience = 5;
+                                    _character.experienceMax = 10;
+                                    _character.save();
+
                                     if (widget.handler != null) {
+                                      _character.dump();
                                       widget.handler!();
                                     }
                                   } else {
-                                    _logger.t("pressed next");
+                                    _logger.w("Pressed Next: $_phase");
+
+                                    _character.dump();
+
+                                    switch (_phase) {
+                                      case 0:
+                                        {
+                                          _character.name = _controller.text;
+                                          _character.save();
+                                        }
+                                        break;
+                                      case 1:
+                                        {
+                                          _character.classType =
+                                              _class != ClassType.none
+                                                  ? _class
+                                                  : ClassType.fighter;
+                                          _character.save();
+                                        }
+                                        break;
+                                    }
+
                                     _phase++;
                                   }
                                 }),

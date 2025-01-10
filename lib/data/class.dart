@@ -44,10 +44,14 @@ class Class {
     statBonuses.forEach((stat, val) =>
         stats += "${(stats.isNotEmpty ? ", " : "")} ${stat.name}:$val");
 
-    _logger.t("================================");
-    _logger.t("Name: $name");
-    _logger.t("Stats: [$stats]");
-    _logger.t("Unlocked: $unlocked");
-    _logger.t("================================");
+    _logger.t(
+      """
+================================
+Name: $name
+Stats: [$stats]
+Unlocked: $unlocked
+================================
+      """,
+    );
   }
 }
